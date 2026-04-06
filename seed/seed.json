@@ -42,6 +42,11 @@
 					"slug": "excerpt",
 					"label": "Excerpt",
 					"type": "text"
+				},
+				{
+					"slug": "price",
+					"label": "Price (x402)",
+					"type": "number"
 				}
 			]
 		},

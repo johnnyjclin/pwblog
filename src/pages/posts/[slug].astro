@@ -30,6 +30,18 @@ if (!post) {
 
 Astro.cache.set(cacheHint);
 
+// x402 payment enforcement (bot-only mode: AI agents/scrapers pay, humans read free)
+// Only enforce if a price is set on this post
+if (post.data.price) {
+	const { x402 } = Astro.locals;
+	const x402Result = await x402.enforce(Astro.request, {
+		price: post.data.price,
+		description: post.data.title,
+	});
+	if (x402Result instanceof Response) return x402Result;
+	x402.applyHeaders(x402Result, Astro.response);
+}
+
 // Get featured image URL for OG fallback
 // The image may have src (external) or meta.storageKey (local)
 function getImageUrl(img: unknown): string | undefined {
